@@ -79,6 +79,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private TextView info;
     private ImageView profileImgView;
     private LoginButton loginButton;
+    private Button mEmailSignInButton;
 
     private PrefUtil prefUtil;
     private IntentUtil intentUtil;
@@ -98,6 +99,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
+        //setContentView(R.layout.activity_login);
+
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -110,10 +113,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+        mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+
+        mEmailSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 attemptLogin();
             }
         });
@@ -124,7 +129,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // more fb code
         callbackManager = CallbackManager.Factory.create();
 
-        setContentView(R.layout.activity_login);
+
 
         prefUtil = new PrefUtil(this);
         intentUtil = new IntentUtil(this);
@@ -132,6 +137,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         info = (TextView) findViewById(R.id.info);
         profileImgView = (ImageView) findViewById(R.id.profile_img);
         loginButton = (LoginButton) findViewById(R.id.login_button);
+
+        loginButton.setOnClickListener(new OnClickListener(){
+            public void onClick(View v){
+                startActivity(new Intent(LoginActivity.this, NavigationActivity.class));
+            }
+        });
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -281,7 +292,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (mAuthTask != null) {
             return;
         }
-
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
@@ -458,7 +468,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
 
             // TODO: register the new account here.
-            return true;
+            return false;
         }
 
         @Override
@@ -468,6 +478,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 finish();
+                Intent myIntent = new Intent(LoginActivity.this,NavigationActivity.class);
+                LoginActivity.this.startActivity(myIntent);
+
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
