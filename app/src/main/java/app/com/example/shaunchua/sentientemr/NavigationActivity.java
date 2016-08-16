@@ -8,7 +8,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +16,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.facebook.FacebookSdk;
 import com.facebook.Profile;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.ProfilePictureView;
 
@@ -108,7 +108,7 @@ public class NavigationActivity extends AppCompatActivity
 //            profile_pic1 = (ImageView) findViewById(R.id.imageView);
 //            profile_pic1.setImageDrawable(drawable);
 
-            Log.d("picture", "Profile is null");
+
         }
 
 
@@ -180,18 +180,30 @@ public class NavigationActivity extends AppCompatActivity
         if (id == R.id.nav_camera) {//home
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {//my doctors
+            Intent i = new Intent(NavigationActivity.this, DoctorsActivity.class);
+            startActivity(i);
 
         } else if (id == R.id.nav_slideshow) {//test results
+            Intent i = new Intent(NavigationActivity.this, TestResultsActivity.class);
+            startActivity(i);
 
         } else if (id == R.id.nav_manage) {//settings
             Intent i = new Intent(NavigationActivity.this, SettingsActivity.class);
             startActivity(i);
 
         } else if (id == R.id.nav_share) {//medical history
+            Intent i = new Intent(NavigationActivity.this, MedicalHistoryActivity.class);
+            startActivity(i);
 
         } else if (id == R.id.nav_send) {//messages
             Intent i = new Intent(NavigationActivity.this, MessagesActivity.class);
             startActivity(i);
+
+        } else if (id == R.id.nav_logout) {//log out
+            LoginManager.getInstance().logOut();
+            Intent i = new Intent(NavigationActivity.this, LoginActivity.class);
+            startActivity(i);
+            //this.finish();
 
         }
 
